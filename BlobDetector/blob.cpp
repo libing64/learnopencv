@@ -12,9 +12,9 @@ using namespace std;
 
 int main( int argc, char** argv )
 {
-
+	cout << "cmd: " << argv[0] << "  blob.jpg" << endl;
 	// Read image
-	Mat im = imread( "blob.jpg", IMREAD_GRAYSCALE );
+	Mat im = imread(argv[1], IMREAD_GRAYSCALE );
 
 	// Setup SimpleBlobDetector parameters.
 	SimpleBlobDetector::Params params;

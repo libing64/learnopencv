@@ -1,14 +1,7 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.1)
 
-PROJECT(text_detection)
 
-find_package( OpenCV REQUIRED )
+find_package(OpenCV REQUIRED)
 
-include_directories( ${OpenCV_INCLUDE_DIRS})
-
-MACRO(add_example name)
-  ADD_EXECUTABLE(${name} ${name}.cpp)
-  TARGET_LINK_LIBRARIES(${name} ${OpenCV_LIBS})
-ENDMACRO()
-
-add_example(textDetection)
+add_executable(textDetection textDetection.cpp)
+target_link_libraries(textDetection ${OpenCV_LIBS})

@@ -28,9 +28,9 @@ void mouseHandler(int event, int x, int y, int flags, void* data_ptr)
 
 int main( int argc, char** argv)
 {
-
+    cout << "cmd: " << argv[0] << "path/book1.jpg" << endl; 
     // Read in the image.
-    Mat im_src = imread("book1.jpg");
+    Mat im_src = imread(argv[1]);
 
     // Destination image
     Size size(300,400);

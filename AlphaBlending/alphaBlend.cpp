@@ -45,9 +45,11 @@ Mat& alphaBlendDirectAccess(Mat& alpha, Mat& foreground, Mat& background, Mat& o
 
 int main(int argc, char** argv)
 {
+    cout << "cmd: " << argv[0] << "  path/foreGroundAssetLarge.png  path/backGroundLarge.jpg" << endl;
+    if (argc < 3) return false;
     
     // Read in the png foreground asset file that contains both rgb and alpha information
-    Mat foreGroundImage = imread("foreGroundAssetLarge.png", -1);
+    Mat foreGroundImage = imread(argv[1], -1);
     Mat bgra[4];
     split(foreGroundImage, bgra);//split png foreground
     
@@ -68,7 +70,8 @@ int main(int argc, char** argv)
     merge(alphaChannels, alpha);
    
     // Read background image
-    Mat background = imread("backGroundLarge.jpg");
+    //Mat background = imread("backGroundLarge.jpg");
+    Mat background = imread(argv[2]);
     
     // Convert Mat to float data type
     foreground.convertTo(foreground, CV_32FC3);

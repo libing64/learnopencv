@@ -10,11 +10,11 @@
 using namespace cv;
 using namespace std;
 
-int main(void)
+int main(int argc, char** argv)
 {
     // Read the images to be aligned
-    Mat im1 = imread("images/image1.jpg");
-    Mat im2 = imread("images/image2.jpg");
+    Mat im1 = imread(argv[1]);
+    Mat im2 = imread(argv[2]);
     
     // Convert images to gray scale;
     Mat im1_gray, im2_gray;

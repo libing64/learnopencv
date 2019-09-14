@@ -132,8 +132,9 @@ void fixBorder(Mat &frame_stabilized)
 
 int main(int argc, char **argv)
 {
+  cout << "cmd: " << argv[0] << " path/video.mpr" << endl;
   // Read input video
-  VideoCapture cap("video.mp4");
+  VideoCapture cap(argv[1]);
 
   // Get frame count
   int n_frames = int(cap.get(CAP_PROP_FRAME_COUNT)); 

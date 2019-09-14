@@ -36,8 +36,9 @@ Mat applyCustomColorMap(Mat& im_gray)
 
 int main( int argc, char** argv )
 {
+    cout << "cmd: " << argv[0] << "path/pluto.jpg" << endl;
     // Read 8-bit grayscale image
-    Mat im = imread("pluto.jpg", IMREAD_GRAYSCALE);
+    Mat im = imread(argv[1], IMREAD_GRAYSCALE);
     cvtColor(im.clone(), im, COLOR_GRAY2BGR);
     Mat im_color = applyCustomColorMap(im);
     

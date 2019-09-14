@@ -70,8 +70,8 @@ static void draw_voronoi( Mat& img, Subdiv2D& subdiv )
 
 int main( int argc, char** argv)
 {
-
-    // Define window names
+    cout << "cmd: " << argv[0] << "path/obama.jpg  " <<  "path/obama.txt" << endl;
+     // Define window names
     string win_delaunay = "Delaunay Triangulation";
     string win_voronoi = "Voronoi Diagram";
     
@@ -82,7 +82,7 @@ int main( int argc, char** argv)
     Scalar delaunay_color(255,255,255), points_color(0, 0, 255);
     
     // Read in the image.
-    Mat img = imread("obama.jpg");
+    Mat img = imread(argv[1]);
     
     // Keep a copy around
     Mat img_orig = img.clone();
@@ -98,7 +98,7 @@ int main( int argc, char** argv)
     vector<Point2f> points;
 
     // Read in the points from a text file
-    ifstream ifs("obama.txt");
+    ifstream ifs(argv[2]);
     int x, y;
     while(ifs >> x >> y)
     {

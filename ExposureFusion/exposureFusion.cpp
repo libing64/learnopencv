@@ -8,7 +8,7 @@ using namespace cv;
 using namespace std;
 
 // Read Images
-void readImages(vector<Mat> &images)
+void readImages(string path, vector<Mat> &images)
 {
   
   int numImages = 16;
@@ -34,7 +34,8 @@ void readImages(vector<Mat> &images)
   
   for(int i=0; i < numImages; i++)
   {
-    Mat im = imread(filenames[i]);
+    
+    Mat im = imread(path + filenames[i]);
     images.push_back(im);
   }
 
@@ -47,23 +48,12 @@ int main(int argc, char **argv)
   vector<Mat> images;
   
   bool needsAlignment = true;
-  if(argc > 1)
-  {
-    // Read images from the command line
-    for(int i=1; i < argc; i++)
-    {
-      Mat im = imread(argv[i]);
-      images.push_back(im);
-    }
-
-  }
-  else
-  {
-    // Read example images
-    readImages(images);
-    needsAlignment = false;
-  }
   
+  // Read example images
+  readImages(argv[1], images);
+  needsAlignment = false;
+
+  cout << "images len: " << images.size() << endl;
   // Align input images
   if(needsAlignment)
   {

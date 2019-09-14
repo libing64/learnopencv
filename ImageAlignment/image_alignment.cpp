@@ -38,11 +38,11 @@ Mat GetGradient(Mat src_gray)
 
 int main( int argc, char** argv )
 {
-
+    cout << "cmd: " << argv[0] << "  path/cathedral.jpg/" << endl;
 	// Read 8-bit color image.
     // This is an image in which the three channels are
     // concatenated vertically.
-	Mat im =  imread("images/cathedral.jpg", IMREAD_GRAYSCALE);
+	Mat im =  imread(argv[1], IMREAD_GRAYSCALE);
 	
     // Find the width and height of the color image
     Size sz = im.size();

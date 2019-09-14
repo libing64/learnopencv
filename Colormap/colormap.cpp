@@ -45,8 +45,9 @@ string colormap_name(int id)
 
 int main( int argc, char** argv )
 {
+    cout << "cmd: " << argv[0] << "path/pluto.jpg" << endl;
     // Read 8-bit grayscale image
-    Mat im = imread("pluto.jpg", IMREAD_GRAYSCALE);
+    Mat im = imread(argv[1], IMREAD_GRAYSCALE);
 
     Mat im_out = Mat::zeros(600, 800, CV_8UC3);
 

@@ -159,8 +159,10 @@ void resetSliderValues(int event, int x, int y, int flags, void* userdata)
 
 int main(int argc, char **argv)
 {
+
+  cout << "cmd: " << argv[0] << " path/images/" << endl;
   // Directory containing images
-  string dirName = "images/";
+  string dirName = argv[1];
   
   // Read images in the directory
   vector<Mat> images; 
