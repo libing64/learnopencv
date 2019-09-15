@@ -1,0 +1,7 @@
+{
+    "editor.detectIndentation": false,
+    "files.associations": {
+        "*.tcc": "cpp",
+        "iostream": "cpp"
+    }
+}
