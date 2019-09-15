@@ -11,6 +11,7 @@ using namespace cv;
 
 vector<vector<Point3d>> object_points;
 vector<vector<Point2f>> imagePoints;
+vector<Mat> images;
 vector<Point2f> corners;
 vector<vector<Point2d>> img_points;
 
@@ -48,6 +49,10 @@ void load_image_points(int board_width, int board_height, float square_size, int
             cout << i << ". Found corners!" << endl;
             imagePoints.push_back(corners);
             object_points.push_back(obj);
+            images.push_back(img.clone());
+
+            imshow("gray", gray);
+            waitKey();
         }
     }
     for (int i = 0; i < imagePoints.size(); i++)
@@ -65,7 +70,7 @@ void load_image_points(int board_width, int board_height, float square_size, int
 static double computeReprojectionErrors( const vector<vector<Point3d> >& objectPoints,
                                          const vector<vector<Point2d> >& imagePoints,
                                          const vector<Mat>& rvecs, const vector<Mat>& tvecs,
-                                         Mat & cameraMatrix , Mat & distCoeffs,
+                                         Matx33d & cameraMatrix , Vec4d & distCoeffs,
                                          vector<float>& perViewErrors)
 {
     vector<Point2d> imagePoints2;
@@ -89,6 +94,21 @@ static double computeReprojectionErrors( const vector<vector<Point3d> >& objectP
     return std::sqrt(totalErr/totalPoints);
 }
 
+
+void undistort_images(const Matx33d& K, const Vec4d & D, vector<Mat>& imgs)
+{
+    Mat raw, view;
+    cout << "K: " << K << endl;
+    cout << "D: " << D << endl;
+    for (int i = 0; i < imgs.size(); i++)
+    {
+        raw = imgs[i].clone();
+        fisheye::undistortImage(raw, view, K, D);
+        imshow("raw", raw);
+        imshow("img", view);
+        waitKey(0);
+    }
+}
 int main(int argc, char const *argv[])
 {
     int board_width, board_height, num_imgs;
@@ -117,12 +137,14 @@ int main(int argc, char const *argv[])
     load_image_points(board_width, board_height, square_size, num_imgs, img_dir, img_filename);
 
     printf("Starting Calibration\n");
-    Mat K;
+    Matx33d K;
+    Vec4d D;
     vector<Mat> rvecs;
     vector<Mat> tvecs;
-    Mat D;
+
     int flag = 0;
     flag |= cv::fisheye::CALIB_RECOMPUTE_EXTRINSIC;
+    flag |= cv::fisheye::CALIB_CHECK_COND;
     flag |= cv::fisheye::CALIB_FIX_SKEW;
 
     Mat _rvecs, _tvecs;
@@ -138,6 +160,11 @@ int main(int argc, char const *argv[])
 
     cout << "camera_matrix: " << K << endl;
     cout << "distortion coeffs: " << D << endl;
+
+    for (int i = 0; i < 4; i++)
+        D(i) = 0;
+    
+    undistort_images(K, D, images);
 
     rvecs.reserve(_rvecs.rows);
     tvecs.reserve(_tvecs.rows);
@@ -158,6 +185,7 @@ int main(int argc, char const *argv[])
     fs << "tvecs" << _tvecs;
     fs << "rms" << total_avg_err;
     printf("Done Calibration\n");
+
 
     return 0;
 }
